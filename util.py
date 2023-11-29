@@ -135,6 +135,27 @@ def fwhm2length(fwhm, kappa, wavelength, n_eff):
     return (np.abs(kappa) ** 2 * wavelength**2) / (pi * fwhm * n_eff)
 
 
+def delta_length_amzi(splitting_ratio, central_wavelength):
+    """
+    Calculate the required path length difference to obtain
+    an abitrary intensity splitting ratio between the top and bottom port
+    at a central wavelength. Assuming 50:50 coupling for directional couplers 1 & 2
+
+    splitting_ratio = 0.5 * (1 + cos(beta*delta_L))
+
+    Parameters:
+        splitting_ratio (float): Ratio between the input and output intensity
+        central_wavelength (float): Wavelength in meters
+
+    Returns:
+    float: delta_L_amzi in meters
+    """
+    n_eff = refractive_index(central_wavelength * 1e6)
+    beta = prop_const(central_wavelength, n_eff)
+    delta_length = np.arccos(2 * splitting_ratio - 1) / beta
+    return delta_length
+
+
 def theta(n_eff, r, wavelength):
     """
     Calculate phase shift.
@@ -317,8 +338,8 @@ def plot_jsi(
     pef,
     pmf,
     jsi,
-    y_label_str="Idler frequecy (nm)",
-    x_label_str="Signal frequecy (nm)",
+    y_label_str="Idler frequency (nm)",
+    x_label_str="Signal frequency (nm)",
 ):
     """
     Plot the joint spectral intensity and related functions.
@@ -369,9 +390,24 @@ def plot_jsi(
     )
 
 
+def loss(alpha, length):
+    """
+    Returns the transmission coefficient of the phantom loss channel
+
+    Parameters:
+        alpha (float): loss value in dB/cm
+        length (float): length of medium in meter
+
+    Returns:
+        float: Transmission effciency
+    """
+    return 10 ** -((alpha * length * 1e2) / 10)
+
+
 if __name__ == "__main__":
     wavelength = 1.55e-6  # Wavelength in meter
     group_idx = group_index(wavelength * 1e6)
     round_trip_length = fsr2length(2e-9, wavelength, group_idx)
+    print(delta_length_amzi(0.8, 1550e-9))
     print(f"Radius of ring resonator: {round_trip_length*1e6/(2*pi):.2f} micron")
     print(wavevector(wavelength, group_index))
