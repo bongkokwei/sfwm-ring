@@ -1,2 +1,2 @@
 # Spontaneous four wave with micro ring resonators
-Various scripts to explore different types of ring structures
+Run micro_ring_resonator_gui.py to explore how the coupling parameter impacts the purity of the photon

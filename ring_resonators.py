@@ -99,8 +99,7 @@ if __name__ == "__main__":
 
     # Turn it into a 2D matrix
     lorentz_pump = func_to_matrix(pump_lorentzian, prop_const_sig, prop_const_idl)
-    sech_pump = func_to_matrix(pump_sech, sig_wave, idl_wave)
-    pef = np.abs(lorentz_pump) * np.abs(sech_pump)
+    pef = np.abs(lorentz_pump)
     pmf = func_to_matrix(sig_idl_lorentzian, prop_const_sig, prop_const_idl)
     jsi = np.abs(pef) * np.abs(pmf)
 
