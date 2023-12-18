@@ -404,6 +404,48 @@ def loss(alpha, length):
     return 10 ** -((alpha * length * 1e2) / 10)
 
 
+def find_closest_value(array, target_value):
+    """
+    Find the closest value and its index in the given NumPy array to the target value.
+
+    Parameters:
+    - array (numpy.ndarray): The input NumPy array of values.
+    - target_value (float): The target value to which we want to find the closest element.
+
+    Returns:
+    - tuple: A tuple containing the closest value and its index.
+    """
+
+    # Find the closest element in the array
+    closest_value = min(array, key=lambda x: abs(x - target_value))
+
+    # Find the index of the closest element
+    closest_index = np.where(array == closest_value)[0][0]
+
+    # Return a tuple containing the closest value and its index
+    return closest_value, closest_index
+
+
+def sech_squared(x):
+    """Calculate the squared sech function of x.
+
+    Args:
+        x (float): The input value.
+
+    Returns:
+        float: The squared sech function of x.
+    """
+
+    sech_x = 1 / np.cosh(x)
+    return sech_x**2
+
+
+# def F_p(omega, omega_p):
+#     sech_squared(omega) * sech_squared(omega - omega_p) * lorentzian(
+#         omega_p
+#     ) * lorentzian(omega - omega_p)
+
+
 if __name__ == "__main__":
     wavelength = 1.55e-6  # Wavelength in meter
     group_idx = group_index(wavelength * 1e6)

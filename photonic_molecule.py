@@ -139,8 +139,8 @@ if __name__ == "__main__":
     wavelength = np.linspace(1550e-9 - 15e-9, 1550e-9 + 15e-9, num=40000)
     wavevector = util.wavevector(wavelength)
 
-    coupling = [0.23, 0.4, 0.4]
-    fsr = [7e-9, 10e-9]
+    coupling = [0.23, 0.1, 0.14]
+    fsr = [5e-9, 10e-9]
     loss = 3  # dB/cm
     central_wavelength = 1550e-9
 
